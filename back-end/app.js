@@ -57,6 +57,33 @@ app.get('/messages/:messageId', async (req, res) => {
     })
   }
 })
+
+app.get('/about', async (req, res) => {
+  // load all messages from database
+  try {
+    // Mock data for About Us
+    const aboutData = {
+      name: "Jessy Huang",
+      bio: "I am a senior studying Computer Science at NYU. I'm from Chicago, Illinois. I enjoy painting and walking around the city and I really love my cat. Thanks for reading.",
+      imageUrl: "https://i.imgur.com/agq9svm.jpeg"  // Replace with your actual image URL
+    };
+
+    // If the data is missing or there's an issue, return a 404 status
+    if (!aboutData) {
+      return res.status(404).json({ message: 'About Us data not found' });
+    }
+
+    // Send the about data as JSON
+    res.status(200).json(aboutData);
+
+  } catch (error) {
+    // If something goes wrong, return a 500 status and the error message
+    console.error('Error fetching About Us data:', error);
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
+  }
+})
+
+
 // a route to handle logging out users
 app.post('/messages/save', async (req, res) => {
   // try to save the message to the database
@@ -77,6 +104,7 @@ app.post('/messages/save', async (req, res) => {
     })
   }
 })
+
 
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!
